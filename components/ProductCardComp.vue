@@ -22,15 +22,9 @@ const props = defineProps({
   }
 });
 const { product } = props;
+const addedProductStore = useAddedProductStore();
+mutation.initializeStore(addedProductStore);
 function addToCart() {
-  const addedProductStore = useAddedProductStore();
-  mutation.initializeStore(addedProductStore);
-  let addedProducts = addedProductStore.addedProducts;
-  if (addedProducts === null) {
-    addedProducts = [product];
-  } else {
-    addedProducts.push(product);
-  }
-  mutation.updateProductsInCart(addedProducts);
+  mutation.addToCart(product,addedProductStore);
 }
 </script>

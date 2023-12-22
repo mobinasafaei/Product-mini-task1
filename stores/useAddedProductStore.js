@@ -16,5 +16,14 @@ export const mutation = {
     },
     updateProductsInCart(products) {
         window.localStorage.setItem("products", JSON.stringify(products))
+    },
+    addToCart(product,addedProductStore) {
+        if (addedProductStore.addedProducts === null) {
+            addedProductStore.addedProducts = [product];
+          } else {
+            console.log(addedProductStore.addedProducts)
+            addedProductStore.addedProducts.push(product);
+          }
+        this.updateProductsInCart(addedProductStore.addedProducts);
     }
 }
