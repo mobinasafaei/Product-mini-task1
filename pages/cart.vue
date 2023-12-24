@@ -1,7 +1,5 @@
 <template>
   <div>
-    <p>This is shop cart</p>
-    <hr class="w-full" />
     <div v-if="!emptyCart">
       <div
         v-for="(product,index) in addedProducts"
@@ -9,7 +7,7 @@
       >{{ product.attributes.name }} {{product.count}}</div>
     </div>
     <div v-else>
-      <p>cart is empty</p>
+      <p class="text-large text-center font-semibold font-serif">cart is empty</p>
     </div>
   </div>
 </template>
