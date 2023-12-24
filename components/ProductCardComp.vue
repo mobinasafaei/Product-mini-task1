@@ -1,5 +1,5 @@
 <template>
-  <div class="border m-2 p-2 h-full rounded flex flex-col justify-between leading-normal">
+  <div class="border p-2 h-full rounded flex flex-col justify-between leading-normal">
     <div class="mb-8">
       <p class="text-gray-900 font-bold text-xl mb-2">{{ product.attributes.name }}</p>
       <p
@@ -25,6 +25,6 @@ const { product } = props;
 const addedProductStore = useAddedProductStore();
 mutation.initializeStore(addedProductStore);
 function addToCart() {
-  mutation.addToCart(product, addedProductStore);
+  addedProductStore.addToCart(product, addedProductStore);
 }
 </script>
