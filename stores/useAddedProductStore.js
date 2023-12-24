@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 export const useAddedProductStore = defineStore('addedProduct', {
     state: () => ({
-        addedProducts: ref([])
+        addedProducts: ref([]),
     }),
 })
 export const mutation = {
@@ -17,13 +17,18 @@ export const mutation = {
     updateProductsInCart(products) {
         window.localStorage.setItem("products", JSON.stringify(products))
     },
-    addToCart(product,addedProductStore) {
+    addToCart(product, addedProductStore) {
         if (addedProductStore.addedProducts === null) {
-            addedProductStore.addedProducts = [product];
-          } else {
-            console.log(addedProductStore.addedProducts)
-            addedProductStore.addedProducts.push(product);
-          }
+            addedProductStore.addedProducts = [{ ...product, count: 1 }];
+        } else {
+            const existProduct = addedProductStore.addedProducts.filter((existProduct) => { return existProduct.id === product.id })
+
+            if (existProduct[0] !== undefined) {
+                addedProductStore.addedProducts.map((product) => { if (product.id === existProduct[0].id) { product.count++ } })
+            } else {
+                addedProductStore.addedProducts.push({ ...product, count: 1 })
+            }
+        }
         this.updateProductsInCart(addedProductStore.addedProducts);
     }
 }

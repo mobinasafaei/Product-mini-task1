@@ -25,6 +25,6 @@ const { product } = props;
 const addedProductStore = useAddedProductStore();
 mutation.initializeStore(addedProductStore);
 function addToCart() {
-  mutation.addToCart(product,addedProductStore);
+  mutation.addToCart(product, addedProductStore);
 }
 </script>
