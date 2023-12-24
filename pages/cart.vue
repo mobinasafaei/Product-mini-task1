@@ -2,13 +2,15 @@
   <div>
     <p>This is shop cart</p>
     <hr class="w-full" />
-    <div
-      v-for="(product,index) in addedProducts"
-      :key="index"
-    >{{ product.attributes.name }} {{product.count}}</div>
-    <!-- <div :v-if="!display">
+    <div v-if="!emptyCart">
+      <div
+        v-for="(product,index) in addedProducts"
+        :key="index"
+      >{{ product.attributes.name }} {{product.count}}</div>
+    </div>
+    <div v-else>
       <p>cart is empty</p>
-    </div>-->
+    </div>
   </div>
 </template>
 
@@ -17,8 +19,12 @@ import { useAddedProductStore } from "../stores/useAddedProductStore";
 
 const addedProductStore = useAddedProductStore();
 const addedProducts = ref([]);
+const emptyCart = computed(() => {
+  return addedProductStore.addedProducts === null;
+});
 onMounted(() => {
   mutation.initializeStore(addedProductStore);
+  console.log(addedProductStore.addedProducts);
   addedProducts.value = addedProductStore.addedProducts;
 });
 </script>
