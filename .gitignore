@@ -1,45 +1,54 @@
-# Created by https://www.toptal.com/developers/gitignore/api/vuejs,nuxtjs,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=vuejs,nuxtjs,visualstudiocode
-
-### NuxtJS ###
-# Generated dirs
-dist
-.nuxt
-.nuxt-*
-.output
-.gen
-
-# Node dependencies
-node_modules
-
-# System files
-*.log
-
-### VisualStudioCode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
-
-# Local History for Visual Studio Code
-.history/
-
-# Built Visual Studio Code Extensions
-*.vsix
-
-### VisualStudioCode Patch ###
-# Ignore all local history of files
-.history
-.ionide
-
-### Vuejs ###
-# Recommended template: Node.gitignore
-
+# Node.js
 node_modules/
-dist/
 npm-debug.log
 yarn-error.log
+package-lock.json
 
-# End of https://www.toptal.com/developers/gitignore/api/vuejs,nuxtjs,visualstudiocode
+# Build directory
+/dist/
+
+# .nuxt directory
+.nuxt/
+
+# .vscode directory
+.vscode/
+
+# Tailwind CSS build directory
+.tailwind/
+
+# IDE settings
+.idea/
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.editorconfig
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+.komodotools/
+
+# Visual Studio Code directories
+.vscode/
+
+# .env files
+.env*
+
+# Compiled JSX
+*.compiled.js
+
+# Local environment variables
+.env.local
+
+# Next.js build output
+out/
