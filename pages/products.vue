@@ -5,7 +5,7 @@
         <ProductCardComp :product="product" :key="index"></ProductCardComp>
       </div>
     </div>
-    <div v-if="loading" class="flex justify-center">
+    <div v-if="loading" class="flex justify-center m-2">
       <LoadingComp></LoadingComp>
     </div>
   </div>
@@ -27,7 +27,7 @@ async function getProducts(pageNumber) {
     const response = await $fetch("/api/products", {
       method: "GET",
       query: {
-        pageNumber: pageNumber
+        pageNumber
       }
     });
     loading.value = false;
@@ -40,20 +40,17 @@ async function getProducts(pageNumber) {
 
 async function scroll() {
   if (process.browser) {
-    const fetchingData = ref(false);
     window.onscroll = async () => {
       let bottomOfWindow =
         document.documentElement.scrollTop + window.innerHeight ===
         document.documentElement.offsetHeight;
+
       if (bottomOfWindow) {
-        if (currentPageNumber.value < totalPages.value && !fetchingData.value) {
-          fetchingData.value = true;
+        if (currentPageNumber.value < totalPages.value && !loading.value) {
+          loading.value = true;
           const data = await getProducts((currentPageNumber.value += 1));
-          console.log(currentPageNumber.value);
-          data.map(x => {
-            products.value.push(x);
-          });
-          fetchingData.value = false;
+          products.value.push(...data)
+          loading.value = false;
         }
       }
     };
