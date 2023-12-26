@@ -1,5 +1,5 @@
 <template>
-  <div class="m-3">
+  <div>
     <div v-if="loading" class="flex justify-center">
       <LoadingComp></LoadingComp>
     </div>

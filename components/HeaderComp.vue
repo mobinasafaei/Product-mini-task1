@@ -1,5 +1,5 @@
 <template>
-  <div class="m-2 grid grid-cols-3">
+  <div class="p-2 grid grid-cols-3 bg-white w-full">
     <div>icon</div>
     <div>
       <div class="flex justify-center">

@@ -49,7 +49,7 @@ async function scroll() {
         if (currentPageNumber.value < totalPages.value && !loading.value) {
           loading.value = true;
           const data = await getProducts((currentPageNumber.value += 1));
-          products.value.push(...data)
+          products.value.push(...data);
           loading.value = false;
         }
       }
