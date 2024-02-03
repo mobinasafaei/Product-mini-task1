@@ -7,43 +7,44 @@ export const useAddedProductStore = defineStore('addedProduct', {
     }),
     actions: {
         increaseCount(product) {
-            this.addedProducts.map((productIncart) => { if (productIncart.id === product.id) { product.count++ } })
-            this.updateProductsInCart(this.addedProducts)
-        },
-
-        decreaseCount(product, addedProductStore) {
-            if (product.count === 1) {
-                this.removeFromCart(product, addedProductStore);
-            } else {
-                addedProductStore.addedProducts.map((productIncart) => {
-                    if (productIncart.id === product.id) {
-                        product.count--
-                    }
-                })
+            const productInCart = this.addedProducts.find(p => p.id === product.id);
+            if (productInCart) {
+                productInCart.count++;
+                this.updateProductsInCart(this.addedProducts);
             }
-            this.updateProductsInCart(addedProductStore.addedProducts)
+            console.log(productInCart)
         },
 
-        removeFromCart(product, addedProductStore) {
-            addedProductStore.addedProducts = addedProductStore.addedProducts.filter(
-                (productIncart) => { return productIncart.id !== product.id }
-            );
-            this.updateProductsInCart(addedProductStore.addedProducts);
-        },
-
-        addToCart(product, addedProductStore) {
-            if (addedProductStore.addedProducts === null) {
-                addedProductStore.addedProducts = [{ ...product, count: 1 }];
-            } else {
-                const existProduct = addedProductStore.addedProducts.find((p) => p.id === product.id)
-
-                if (existProduct !== undefined) {
-                    addedProductStore.addedProducts.map((product) => { if (product.id === existProduct.id) { product.count++ } })
+        decreaseCount(product) {
+            const productInCart = this.addedProducts.find(p => p.id === product.id);
+            if (productInCart) {
+                if (productInCart.count === 1) {
+                    this.removeFromCart(product);
                 } else {
-                    addedProductStore.addedProducts.push({ ...product, count: 1 })
+                    productInCart.count--;
+                }
+                this.updateProductsInCart(this.addedProducts);
+            }
+        },
+
+        removeFromCart(product) {
+            this.addedProducts = this.addedProducts.filter(p => p.id !== product.id);
+            this.updateProductsInCart(this.addedProducts);
+        },
+
+        addToCart(product) {
+            if (this.addedProducts === null) {
+                this.addedProducts = [{ ...product, count: 1 }];
+            } else {
+                const existProduct = this.addedProducts.find((p) => p.id === product.id)
+                if (existProduct) {
+                    existProduct.count++;
+                } else {
+                    this.addedProducts.push({ ...product, count: 1 })
                 }
             }
-            this.updateProductsInCart(addedProductStore.addedProducts);
+            this.updateProductsInCart(this.addedProducts);
+
         },
 
         updateProductsInCart(products) {

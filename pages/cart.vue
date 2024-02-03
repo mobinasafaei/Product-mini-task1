@@ -14,7 +14,7 @@
           <div class="flex justify-between">
             <p>{{product.attributes.price }}</p>
             <div class="flex">
-              <button @click="increaseCount(product,addedProductStore)">
+              <button @click="increaseCount(product)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -27,7 +27,7 @@
                 </svg>
               </button>
               <p class="text-lg">{{product.count}}</p>
-              <button @click="decreaseCount(product,addedProductStore)">
+              <button @click="decreaseCount(product)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -54,32 +54,19 @@
 import { useAddedProductStore } from "../stores/useAddedProductStore";
 
 const addedProductStore = useAddedProductStore();
-const addedProducts = ref([]);
+const addedProducts = computed(() => addedProductStore.addedProducts || []);
 const loading = ref(true);
+const emptyCart = computed(() => addedProducts.value.length === 0);
 
 onMounted(() => {
-  mutation.initializeStore(addedProductStore);
-  setAddedProductValue();
   loading.value = false;
 });
 
-watchEffect(() => {
-  setAddedProductValue();
-});
-
-const emptyCart = computed(() => {
-  return addedProductStore.addedProducts.length === 0;
-});
-
-function increaseCount(product, addedProductStore) {
-  addedProductStore.increaseCount(product, addedProductStore);
+function increaseCount(product) {
+  addedProductStore.increaseCount(product);
 }
 
-function decreaseCount(product, addedProductStore) {
-  addedProductStore.decreaseCount(product, addedProductStore);
-}
-
-function setAddedProductValue() {
-  addedProducts.value = addedProductStore.addedProducts;
+function decreaseCount(product) {
+  addedProductStore.decreaseCount(product);
 }
 </script>

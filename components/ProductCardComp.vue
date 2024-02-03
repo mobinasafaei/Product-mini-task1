@@ -8,13 +8,43 @@
     </div>
     <div class="grid grid-cols-2">
       <p class="text-lg font-bold">{{ product.attributes.price }}</p>
-      <button class="w-full bg-black rounded-md text-white" @click="addToCart()">Add to Cart</button>
+      <button
+        class="w-full bg-black rounded-md text-white"
+        @click="addToCart()"
+        v-if="!checkIfProductExistInCart()"
+      >Add to Cart</button>
+      <div class="flex justify-between" v-else>
+        <button @click="increaseCount({product})">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+        </button>
+        <p class="text-lg">{{count}}</p>
+        <button @click="decreaseCount({product})">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useAddedProductStore } from "../stores/useAddedProductStore";
 const props = defineProps({
   product: {
     type: Object,
@@ -23,8 +53,34 @@ const props = defineProps({
 });
 const { product } = props;
 const addedProductStore = useAddedProductStore();
-mutation.initializeStore(addedProductStore);
+const count = ref(0);
+
+const updateCount = () => {
+  if (addedProductStore.addedProducts) {
+    const foundProduct = addedProductStore.addedProducts.find(
+      p => p.id === product.id
+    );
+    count.value = foundProduct ? foundProduct.count : 0;
+  }
+};
+updateCount();
+
 function addToCart() {
-  addedProductStore.addToCart(product, addedProductStore);
+  addedProductStore.addToCart(product);
+  updateCount();
+}
+
+function checkIfProductExistInCart() {
+  return count.value > 0;
+}
+
+function increaseCount() {
+  count.value++;
+  addedProductStore.increaseCount(product);
+}
+
+function decreaseCount() {
+  count.value--;
+  addedProductStore.decreaseCount(product);
 }
 </script>
