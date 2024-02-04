@@ -11,7 +11,6 @@ export default defineEventHandler(async (event) => {
                 'filter[name]': searchQuery
             }
         })
-        console.log(products)
         return products;
     } catch (error) {
         console.log(error)

@@ -44,7 +44,7 @@
         </div>
       </div>
       <div v-else>
-        <p class="text-large text-center font-semibold font-serif">cart is empty</p>
+        <p class="text-large text-center font-semibold">cart is empty</p>
       </div>
     </div>
   </div>

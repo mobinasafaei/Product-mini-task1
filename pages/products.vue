@@ -7,7 +7,7 @@
         @click="search()"
       >search</button>
     </div>
-    <div v-if="searchResultEmpty" class="font-bold flex justify-center">no matches found</div>
+    <div v-if="searchResultEmpty" class="font-semibold flex justify-center">no matches found</div>
     <div v-else class="grid gap-3 grid-cols-4">
       <div v-for="(product,index) in products" :key="index">
         <ProductCardComp :product="product" :key="index"></ProductCardComp>
