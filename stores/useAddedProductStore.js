@@ -12,7 +12,6 @@ export const useAddedProductStore = defineStore('addedProduct', {
                 productInCart.count++;
                 this.updateProductsInCart(this.addedProducts);
             }
-            console.log(productInCart)
         },
 
         decreaseCount(product) {

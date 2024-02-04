@@ -24,6 +24,8 @@
     "@pinia/nuxt": "^0.5.1",
     "cookie-universal-nuxt": "^2.2.2",
     "js-cookie": "^3.0.5",
-    "pinia": "^2.1.7"
+    "pinia": "^2.1.7",
+    "vue-observe-visibility": "^1.0.0",
+    "vue-toastification": "^2.0.0-rc.5"
   }
 }

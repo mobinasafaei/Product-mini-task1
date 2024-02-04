@@ -45,6 +45,9 @@
 </template>
 
 <script setup>
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 const props = defineProps({
   product: {
     type: Object,
@@ -66,8 +69,13 @@ const updateCount = () => {
 updateCount();
 
 function addToCart() {
-  addedProductStore.addToCart(product);
-  updateCount();
+  try {
+    addedProductStore.addToCart(product);
+    updateCount();
+    toast.success("added to cart succesfully");
+  } catch (x) {
+    toast.error("something went wrong")
+  }
 }
 
 function checkIfProductExistInCart() {

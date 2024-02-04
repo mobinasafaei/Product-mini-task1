@@ -8,13 +8,17 @@
       </div>
     </div>
     <button @click="goToCartPage()" class="flex justify-end">
+      <div
+        class="bg-red-500 absolute top-1 right-1 rounded-full w-5 h-5 text-center text-sm text-slate-50"
+        v-show="showThecountInCart"
+      >{{ countOfProductsInCart }}</div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         stroke-width="2"
         stroke="currentColor"
-        class="w-7 h-7"
+        class="w-8 h-8"
       >
         <path
           stroke-linecap="round"
@@ -27,6 +31,29 @@
 </template>
 
 <script setup>
+const addedProductStore = useAddedProductStore();
+const emptyCart = ref(true);
+const countOfProductsInCart = ref(0);
+const showThecountInCart = computed(() => {
+  return countOfProductsInCart.value > 0;
+});
+
+const calculateCountOfProductIncart = () => {
+  if (addedProductStore.addedProducts) {
+    if (addedProductStore.addedProducts == null) {
+      return 0;
+    } else {
+      countOfProductsInCart.value = 0;
+      addedProductStore.addedProducts.map(p => {
+        countOfProductsInCart.value += p.count;
+      });
+    }
+  }
+};
+watchEffect(() => {
+  calculateCountOfProductIncart();
+});
+
 function goToCartPage() {
   useRouter().push("/cart");
 }
