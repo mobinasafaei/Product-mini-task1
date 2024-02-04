@@ -7,7 +7,8 @@
         @click="search()"
       >search</button>
     </div>
-    <div class="grid gap-3 grid-cols-4">
+    <div v-if="searchResultEmpty" class="font-bold flex justify-center">no matches found</div>
+    <div v-else class="grid gap-3 grid-cols-4">
       <div v-for="(product,index) in products" :key="index">
         <ProductCardComp :product="product" :key="index"></ProductCardComp>
       </div>
@@ -28,12 +29,14 @@ const loading = ref(true);
 const totalPages = ref();
 const currentPageNumber = ref(1);
 const searchQuery = ref("");
+const searchResultEmpty = ref(false);
 
 onMounted(async () => {
-  products.value = await getProducts(1, searchQuery);
+  products.value = await getProducts(1);
 });
 
 async function getProducts(pageNumber, searchQuery) {
+  searchResultEmpty.value = false;
   try {
     const response = await $fetch("/api/products", {
       method: "GET",
@@ -51,16 +54,30 @@ async function getProducts(pageNumber, searchQuery) {
 }
 async function search() {
   loading.value = true;
-  const data =await getProducts(1,searchQuery.value);
-  console.log(data)
+  try {
+    products.value = [];
+    const data = await getProducts(1, searchQuery.value);
+    if (data.length !== 0) {
+      products.value = data;
+    } else {
+      searchResultEmpty.value = true;
+    }
+  } catch (x) {
+    toast.error("something went wrong");
+  }
   loading.value = false;
 }
 
 async function scroll() {
   if (currentPageNumber.value < totalPages.value && !loading.value) {
     loading.value = true;
-    const data = await getProducts((currentPageNumber.value += 1));
-    products.value.push(...data);
+    try {
+      const data = await getProducts((currentPageNumber.value += 1));
+      products.value.push(...data);
+    } catch (x) {
+      toast.error("can not load products");
+    }
+
     loading.value = false;
   }
 }

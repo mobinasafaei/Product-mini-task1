@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
         const products = await $fetch(`${apiBase}/products?page=${query.pageNumber}`, {
             method: "GET",
             query: {
-                'filters[name]': searchQuery
+                'filter[name]': searchQuery
             }
         })
         console.log(products)
